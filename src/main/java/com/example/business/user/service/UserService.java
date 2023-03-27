@@ -1,4 +1,5 @@
 package com.example.business.user.service;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.business.user.dto.response.QueryUserResponse;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -26,6 +27,8 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     @Resource
     private UserMapper userMapper;
 
+    String salt = "htt";
+
     public ApiResult<?> addUser(LoginRequest request){
         //mybatis plus的使用
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
@@ -34,7 +37,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         if(!list.isEmpty()) return ApiResult.fail("用户名已存在");
         User user = new User();
         //通过盐值对密码进行加密处理
-        String salt = "lqq";
+
         user.setPassword(DigestUtils.sha256Hex(request.getPassword()+ salt));
         user.setUsername(request.getUsername());
         user.setName(request.getName());
@@ -42,6 +45,18 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         user.setIcon(request.getIcon());
         this.save(user);
         return ApiResult.ok("创建用户成功");
+    }
+
+    public ApiResult<?> updateUser(LoginRequest request){
+        User user = this.getOne(Wrappers.lambdaQuery(User.class)
+                .eq(User::getUsername,request.getUsername())
+                .eq(User::getId,request.getId()));
+        if(user==null) return ApiResult.fail("该用户不存在");
+        user.setName(request.getName());
+        user.setMobile(request.getMobile());
+        user.setIcon(request.getIcon());
+        user.setPassword(DigestUtils.sha256Hex(request.getPassword()+ salt));
+        return ApiResult.ok("用户信息修改成功");
     }
 
     public ApiResult<?> deleteUser(String id){

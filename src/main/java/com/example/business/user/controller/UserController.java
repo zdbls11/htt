@@ -35,7 +35,7 @@ public class UserController {
     //登录
     @RequestMapping("/login")
     public ApiResult<?> login(@Valid @RequestBody LoginRequest request){
-        String salt = "lqq";
+        String salt = "htt";
         List<User> list = userMapper.find(request.getUsername());
         if(list.size()==0){
             return ApiResult.fail("用户名不存在");
@@ -44,7 +44,6 @@ public class UserController {
             if(!list.get(0).getIsEnable()){
                 return ApiResult.fail("用户已禁用");
             }
-//            list.get(0).setPassword("****");
             return ApiResult.ok(list.get(0),"登录成功");
         }else {
             return ApiResult.fail("密码错误");
@@ -54,6 +53,11 @@ public class UserController {
     @RequestMapping("/add_user")
     public ApiResult<?> addUser(@Valid @RequestBody LoginRequest request){
         return userService.addUser(request);
+    }
+    //修改用户
+    @RequestMapping("/update_user")
+    public ApiResult<?> updateUser(@Valid @RequestBody LoginRequest request){
+        return userService.updateUser(request);
     }
     //删除用户
     @RequestMapping("/delete_user/{id}")
