@@ -8,7 +8,6 @@ import com.example.business.user.entity.User;
 import com.example.business.user.mapper.UserMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
