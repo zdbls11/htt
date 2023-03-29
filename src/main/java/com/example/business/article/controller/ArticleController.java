@@ -1,6 +1,7 @@
 package com.example.business.article.controller;
 
 import com.example.business.article.dto.request.AddArticleRequest;
+import com.example.business.article.dto.request.IsEnableRequest;
 import com.example.business.article.dto.request.QueryArticleRequest;
 import com.example.business.article.service.ArticleService;
 import com.example.business.user.entity.ApiResult;
@@ -42,5 +43,11 @@ public class ArticleController {
     @RequestMapping("/article/query")
     public ApiResult<?> query(@Valid @RequestBody QueryArticleRequest request) {
         return articleService.query(request);
+    }
+
+    @RequestMapping("/article/is_enable")
+    public ApiResult<?> is_enable(@Valid @RequestBody IsEnableRequest request) {
+        articleService.is_enable(request);
+        return ApiResult.ok();
     }
 }
