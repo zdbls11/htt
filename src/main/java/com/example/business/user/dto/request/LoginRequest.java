@@ -1,5 +1,4 @@
 package com.example.business.user.dto.request;
-import com.mysql.cj.jdbc.Blob;
 import lombok.Data;
 
 /**
@@ -8,7 +7,6 @@ import lombok.Data;
  */
 @Data
 public class LoginRequest {
-    private Long id;
     /**
      * 用户名
      */
