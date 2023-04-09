@@ -29,18 +29,18 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
     @Resource
     private UserMapper userMapper;
-    String salt = "lqq";
+    String salt = "htt";
 
-    public ApiResult<?> addUser(LoginRequest request){
+    public ApiResult<?> addUser(LoginRequest request) {
         //mybatis plus的使用
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername,request.getUsername());//select xxx from user where username = #{username}
+        wrapper.eq(User::getUsername, request.getUsername());//select xxx from user where username = #{username}
         List<User> list = this.list(wrapper);//select xxx from user  where username = #{username}
-        if(!list.isEmpty()) return ApiResult.fail("用户名已存在");
+        if (!list.isEmpty()) return ApiResult.fail("用户名已存在");
         User user = new User();
         //通过盐值对密码进行加密处理
 
-        user.setPassword(DigestUtils.sha256Hex(request.getPassword()+ this.salt));
+        user.setPassword(DigestUtils.sha256Hex(request.getPassword() + this.salt));
         user.setUsername(request.getUsername());
         user.setName(request.getName());
         user.setMobile(request.getMobile());
@@ -49,51 +49,66 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         return ApiResult.ok("创建用户成功");
     }
 
-    public ApiResult<?> deleteUser(String id){
+    public ApiResult<?> deleteUser(String id) {
         this.removeById(id);
         return ApiResult.ok("删除用户成功");
     }
 
-    public ApiResult<?> queryUser(QueryUserRequest request){
+    public ApiResult<?> queryUser(QueryUserRequest request) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        if(request.getUsername()!=null){
-            wrapper.like(User::getUsername,request.getUsername());
+        if (request.getUsername() != null) {
+            wrapper.like(User::getUsername, request.getUsername());
         }
-        if(request.getId()!=null){
-            wrapper.like(User::getId,request.getId());
+        if (request.getId() != null) {
+            wrapper.like(User::getId, request.getId());
         }
-        Page<User> page = PageHelper.startPage(request.getPage(),request.getPage_size());
-        PageInfo<User> users =PageInfo.of( this.list(wrapper));
+        Page<User> page = PageHelper.startPage(request.getPage(), request.getPage_size());
+        PageInfo<User> users = PageInfo.of(this.list(wrapper));
         page.close();
         List<QueryUserResponse> responses = new ArrayList<>();
-        for(User user:users.getList()){
+        for (User user : users.getList()) {
             QueryUserResponse response = new QueryUserResponse();
             response.setMobile(user.getMobile());
             response.setName(user.getName());
             response.setRole(user.getRole());
+            response.setIs_enable(user.getIsEnable());
             response.setUsername(user.getUsername());
+            response.setId(user.getId());
             responses.add(response);
         }
-        return ApiResult.ok(responses,String.valueOf(users.getTotal()));
+        return ApiResult.ok(responses, String.valueOf(users.getTotal()));
     }
 
-    public ApiResult<?> updateUser(UpdateRequest request){
+    public ApiResult<?> updateUser(UpdateRequest request) {
         User user = this.getById(request.getId());
         //修改密码
-        if(request.getOld_password()!=null&&request.getNew_password()!=null){
-            if(!Objects.equals(user.getPassword(), DigestUtils.sha256Hex(request.getOld_password() + this.salt))){
+        if (request.getOld_password() != null && request.getNew_password() != null) {
+            if (!Objects.equals(user.getPassword(), DigestUtils.sha256Hex(request.getOld_password() + this.salt))) {
                 return ApiResult.fail("旧密码输入错误");
             }
-            if(Objects.equals(request.getOld_password(), request.getNew_password())){
+            if (Objects.equals(request.getOld_password(), request.getNew_password())) {
                 return ApiResult.fail("新旧密码不能相同");
             }
             user.setPassword(DigestUtils.sha256Hex(request.getNew_password() + this.salt));
         }
+        if (request.getNew_password() != null) {
+            user.setPassword(DigestUtils.sha256Hex(request.getNew_password() + this.salt));
+        }
         //修改头像
-        if(request.getIcon()!=null){
+        if (request.getIcon() != null) {
             user.setIcon(request.getIcon());
         }
 
+        if (request.getName() != null) {
+            user.setName(request.getName());
+        }
+
+        if (request.getMobile() != null) {
+            user.setMobile(request.getMobile());
+        }
+        if (request.getIs_enable() != null) {
+            user.setIsEnable(request.getIs_enable());
+        }
         this.updateById(user);
         return ApiResult.ok("修改成功");
     }

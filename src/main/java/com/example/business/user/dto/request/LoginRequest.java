@@ -14,7 +14,7 @@ public class LoginRequest {
     /**
      * 密码
      */
-    private String password;
+    private String password = "root";
     /**
      * 真实姓名
      */

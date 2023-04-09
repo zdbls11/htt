@@ -8,10 +8,7 @@ import com.example.business.user.entity.User;
 import com.example.business.user.mapper.UserMapper;
 import com.example.business.user.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -23,6 +20,7 @@ import java.util.Objects;
  * @Date : 2023/2/28
  */
 @RestController
+@CrossOrigin
 public class UserController {
 
     @Resource
@@ -39,7 +37,7 @@ public class UserController {
     //登录
     @RequestMapping("/login")
     public ApiResult<?> login(@Valid @RequestBody LoginRequest request) {
-        String salt = "lqq";
+        String salt = "htt";
         List<User> list = userMapper.find(request.getUsername());
         if (list.size() == 0) {
             return ApiResult.fail("用户名不存在");
@@ -73,7 +71,7 @@ public class UserController {
         return userService.queryUser(request);
     }
 
-    //修改密码或头像
+    //修改信息
     @RequestMapping("/update_user")
     public ApiResult<?> updateUser(@Valid @RequestBody UpdateRequest request) {
         return userService.updateUser(request);
