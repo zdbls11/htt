@@ -27,4 +27,6 @@ public class LoginRequest {
      * 图片地址
      */
     private String icon;
+
+    private String email;
 }

@@ -58,4 +58,7 @@ public class User implements Serializable {
      */
     @TableField("`icon`")
     private String icon;
+
+    @TableField("`email`")
+    private String email;
 }

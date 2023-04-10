@@ -15,6 +15,7 @@ public class QueryUserResponse {
     private Integer role;
     private String username;
     private Boolean is_enable;
+    private String email;
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 }

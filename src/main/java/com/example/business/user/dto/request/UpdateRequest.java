@@ -35,4 +35,6 @@ public class UpdateRequest {
     private String mobile;
 
     private Boolean is_enable;
+
+    private String email;
 }

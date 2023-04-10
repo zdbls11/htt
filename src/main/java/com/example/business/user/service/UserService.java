@@ -45,6 +45,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         user.setName(request.getName());
         user.setMobile(request.getMobile());
         user.setIcon(request.getIcon());
+        user.setEmail(request.getEmail());
         this.save(user);
         return ApiResult.ok("创建用户成功");
     }
@@ -74,6 +75,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             response.setIs_enable(user.getIsEnable());
             response.setUsername(user.getUsername());
             response.setId(user.getId());
+            response.setEmail(user.getEmail());
             responses.add(response);
         }
         return ApiResult.ok(responses, String.valueOf(users.getTotal()));
@@ -108,6 +110,9 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         }
         if (request.getIs_enable() != null) {
             user.setIsEnable(request.getIs_enable());
+        }
+        if (request.getEmail() != null) {
+            user.setEmail(request.getEmail());
         }
         this.updateById(user);
         return ApiResult.ok("修改成功");
