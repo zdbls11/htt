@@ -1,6 +1,8 @@
 package com.example.business.article.dto.response;
 
 import com.example.business.article.entity.Label;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 public class QueryArticleResponse {
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
     /**
      * 标题

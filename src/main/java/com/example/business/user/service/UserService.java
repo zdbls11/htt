@@ -117,4 +117,11 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         this.updateById(user);
         return ApiResult.ok("修改成功");
     }
+
+    public ApiResult<?> selectEmail(String username){
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUsername,username);
+        User one = this.getOne(wrapper);
+        return ApiResult.ok(one.getEmail());
+    }
 }

@@ -76,4 +76,9 @@ public class UserController {
     public ApiResult<?> updateUser(@Valid @RequestBody UpdateRequest request) {
         return userService.updateUser(request);
     }
+
+    @RequestMapping("/select_email/{username}")
+    public ApiResult<?> selectEmail(@PathVariable String username) {
+        return userService.selectEmail(username);
+    }
 }
