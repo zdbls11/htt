@@ -31,5 +31,6 @@ public class Label implements Serializable {
      * 创建人id
      */
     @TableField("`user_id`")
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long userId;
 }

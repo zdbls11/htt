@@ -1,9 +1,8 @@
 package com.example.business.article.controller;
 
-import com.example.business.article.dto.request.AddArticleRequest;
-import com.example.business.article.dto.request.IsEnableRequest;
-import com.example.business.article.dto.request.QueryArticleRequest;
+import com.example.business.article.dto.request.*;
 import com.example.business.article.service.ArticleService;
+import com.example.business.article.service.MessageService;
 import com.example.business.user.entity.ApiResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +20,9 @@ import javax.validation.Valid;
 public class ArticleController {
     @Resource
     private ArticleService articleService;
+
+    @Resource
+    private MessageService messageService;
 
     @RequestMapping("/article/add")
     public ApiResult<?> add(@Valid @RequestBody AddArticleRequest request) {
@@ -49,5 +51,19 @@ public class ArticleController {
     public ApiResult<?> is_enable(@Valid @RequestBody IsEnableRequest request) {
         articleService.is_enable(request);
         return ApiResult.ok();
+    }
+
+
+    //发表评论
+    @RequestMapping("/message/add")
+    public ApiResult<?> messageAdd(@Valid @RequestBody AddMessageRequest request) {
+        messageService.messageAdd(request);
+        return ApiResult.ok();
+    }
+
+    //查询评论
+    @RequestMapping("/message/query")
+    public ApiResult<?> messageQuery(@Valid @RequestBody QueryMessageRequest request) {
+        return messageService.messageQuery(request);
     }
 }

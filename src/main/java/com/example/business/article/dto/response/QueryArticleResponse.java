@@ -41,12 +41,14 @@ public class QueryArticleResponse {
     /**
      * 文章分类id
      */
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long type_id;
 
     private String type;
     /**
      * 上传用户id
      */
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long user_id;
 
     private String user;
