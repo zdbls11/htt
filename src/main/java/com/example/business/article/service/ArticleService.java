@@ -83,6 +83,8 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
             if (articleLabels.size() != 0) {
                 List<Long> article_ids = articleLabels.stream().map(ArticleLabel::getArticleId).collect(Collectors.toList());
                 wrapper.in(Article::getId, article_ids);
+            }else {
+                return ApiResult.ok(responses, String.valueOf(0));
             }
         }
         int count = this.list(wrapper).size();
