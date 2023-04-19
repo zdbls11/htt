@@ -66,4 +66,10 @@ public class ArticleController {
     public ApiResult<?> messageQuery(@Valid @RequestBody QueryMessageRequest request) {
         return messageService.messageQuery(request);
     }
+
+    @RequestMapping("/message/delete/{id}")
+    public ApiResult<?> messageDelete(@PathVariable Long id) {
+        messageService.removeById(id);
+        return ApiResult.ok();
+    }
 }
