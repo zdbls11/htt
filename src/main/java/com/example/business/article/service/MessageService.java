@@ -54,6 +54,7 @@ public class MessageService extends ServiceImpl<MessageMapper, Message> {
         List<Message> messages = this.list(wrapper);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Map<Long, String> user_map = userService.list().stream().collect(Collectors.toMap(User::getId, User::getName));
+        Map<Long, String> icon_map = userService.list().stream().collect(Collectors.toMap(User::getId, User::getIcon));
         List<QueryMessageResponse> responses = new ArrayList<>();
         for(Message message:messages){
             QueryMessageResponse response = new QueryMessageResponse();
@@ -62,6 +63,7 @@ public class MessageService extends ServiceImpl<MessageMapper, Message> {
             response.setUser_id(message.getUserId());
             response.setCreate_date(sdf.format(message.getCreateDate()));
             response.setUser(user_map.get(message.getUserId()));
+            response.setIcon(icon_map.get(message.getUserId()));
             responses.add(response);
         }
         return ApiResult.ok(responses);

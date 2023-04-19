@@ -30,6 +30,8 @@ public class QueryMessageResponse {
     private Long user_id;
 
     private String user;
+
+    private String icon;
     /**
      * 评论时间
      */

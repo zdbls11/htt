@@ -76,6 +76,7 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
         if (StringUtils.isNotBlank(request.getName())) wrapper.like(Article::getName, request.getName());
         if (StringUtils.isNotBlank(request.getAuthor())) wrapper.like(Article::getAuthor, request.getAuthor());
         if (request.getType_id() != null) wrapper.eq(Article::getTypeId, request.getType_id());
+        if (request.getUser_id() != null) wrapper.eq(Article::getUserId, request.getUser_id());
         if (request.getLabel_id() != null) {
             LambdaQueryWrapper<ArticleLabel> lambdaQueryWrapper = new LambdaQueryWrapper<>();
             lambdaQueryWrapper.eq(ArticleLabel::getLabelId, request.getLabel_id());
@@ -83,7 +84,7 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
             if (articleLabels.size() != 0) {
                 List<Long> article_ids = articleLabels.stream().map(ArticleLabel::getArticleId).collect(Collectors.toList());
                 wrapper.in(Article::getId, article_ids);
-            }else {
+            } else {
                 return ApiResult.ok(responses, String.valueOf(0));
             }
         }

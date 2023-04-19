@@ -30,4 +30,6 @@ public class QueryArticleRequest {
     private String author;
 
     private Long type_id;
+
+    private Long user_id;
 }
